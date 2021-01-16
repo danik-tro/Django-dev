@@ -1,4 +1,5 @@
 from django.db import models
+from googletrans import Translator
 
 
 class City(models.Model):
@@ -14,6 +15,12 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            translator = Translator()
+            self.slug = translator.translate(self.name).text.lower()
+        super().save(*args, **kwargs)
+
 
 class Language(models.Model):
     name = models.CharField(max_length=50,
@@ -27,4 +34,10 @@ class Language(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            translator = Translator()
+            self.slug = translator.translate(self.name).text.lower()
+        super().save(*args, **kwargs)
 
