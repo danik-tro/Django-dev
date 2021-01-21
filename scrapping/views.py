@@ -1,5 +1,15 @@
 from django.shortcuts import render
 import datetime
+from .models import Vacancy
+
+
+def home_view(request):
+    qs = Vacancy.objects.all()
+
+    return render(request,
+                  'home.html', {
+                      'object_list': qs,
+                  })
 
 
 def home(request):
@@ -11,4 +21,3 @@ def home(request):
     return render(request,
                   'home.html',
                   context)
-
